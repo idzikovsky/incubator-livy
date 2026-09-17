@@ -210,6 +210,14 @@ class InteractiveSessionSpec extends AnyFunSpec
       scalaData should (equal ("res0: Int = 3\n") or equal ("val res0: Int = 3\n"))
       (scalaResult \ "status").extract[String] should equal ("ok")
       (scalaResult \ "execution_count").extract[Int] should equal (1)
+    }
+
+    withSession("should execute `1 + 2` == 3 in SparkR") { session =>
+      if (sys.props.getOrElse("skipRTests", "false").toBoolean) {
+        // execute dummy statement to maintain the proper execution_count
+        executeStatement("1 + 2", Some("spark"))
+        cancel("Skipping R tests.")
+      }
 
       val rResult = executeStatement("1 + 2", Some("sparkr"))
       rResult should equal (Extraction.decompose(Map(
