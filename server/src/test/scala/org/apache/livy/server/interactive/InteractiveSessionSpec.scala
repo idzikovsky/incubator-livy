@@ -212,7 +212,7 @@ class InteractiveSessionSpec extends AnyFunSpec
       (scalaResult \ "execution_count").extract[Int] should equal (1)
     }
 
-    withSession("should execute `1 + 2` == 3 in SparkR") { session =>
+    withSession("should execute `1 + 2` == 3 in R") { session =>
       if (sys.props.getOrElse("skipRTests", "false").toBoolean) {
         // execute dummy statement to maintain the proper execution_count
         executeStatement("1 + 2", Some("spark"))
